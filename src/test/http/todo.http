@@ -1,0 +1,33 @@
+### 查询全部
+GET http://localhost:8080/todo
+
+### 新增一条
+POST http://localhost:8080/todo
+Content-Type: application/json
+
+{
+  "title": "买菜",
+  "done": false
+}
+
+### 再加一条已完成的
+POST http://localhost:8080/todo
+Content-Type: application/json
+
+{
+  "title": "写周报",
+  "done": true
+}
+### 查询单条
+GET http://localhost:8080/todo/1
+
+### 更新：只改标题，done 不传
+PUT http://localhost:8080/todo/1
+Content-Type: application/json
+
+{
+  "title": "买菜（改过了）"
+}
+
+### 删除
+DELETE http://localhost:8080/todo/4

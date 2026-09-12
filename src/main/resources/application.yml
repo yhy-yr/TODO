@@ -3,6 +3,8 @@
 # 同一个配置项的完整路径 = 各级 key 用点连起来，比如 spring.datasource.url。
 
 spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
   # datasource：数据源配置，也就是"应用要连哪个数据库、用什么账号连"。
   # 因为 pom 里引入了 spring-boot-starter-data-jpa 和 mysql-connector-j，
   # Spring Boot 会自动配置一个 HikariCP 连接池，下面这几项就是在给它填参数。
@@ -55,6 +57,7 @@ server:
   # 内置 Tomcat 监听的端口。
   # 遇到 "Port 8080 was already in use" 说明端口被别的程序占了，改这里或者关掉占用进程即可。
   port: 8080
+  shutdown: graceful
   # servlet:
   #   context-path: /api    # 如果打开这行，所有接口都会加上 /api 前缀，
                             # 那么访问地址就变成 http://localhost:8080/api/todo

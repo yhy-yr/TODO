@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.Result;
 import com.example.demo.entity.Todo;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.repository.TodoRepository;
@@ -80,8 +81,10 @@ public class TodoController {
         return todoRepository.save(todo);
     }
     @GetMapping("/{id}")
-    public Todo getById(@PathVariable Long id ){
-        return todoRepository.findById(id).orElseThrow(() -> new NotFoundException("id 不存在：" + id));
+    public Result<Todo> getById(@PathVariable Long id ){
+
+       Todo todo =  todoRepository.findById(id).orElseThrow(() -> new NotFoundException("id 不存在：" + id));
+       return Result.success(todo);
     }
     @PutMapping("/{id}")
     public Todo update(@PathVariable long id, @RequestBody Todo todo){

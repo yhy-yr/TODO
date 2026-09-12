@@ -1,4 +1,6 @@
 package com.example.demo.entity;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 // jakarta.persistence.* 是 JPA 规范的注解包（@Entity、@Id、@Table 等都来自这里）。
 // JPA（Java Persistence API）是 Java 官方的"对象 ←→ 数据库"映射标准，本身只是接口规范；
@@ -35,6 +37,8 @@ public class Todo {
     // 下面两个字段没有任何注解，走 Hibernate 的默认规则：
     //   列名 = 字段名，类型按 Java 类型推断（String → varchar(255)，Boolean → bit(1)）
     // 你数据库里 todo 表现在的结构就是这么来的（id bigint / title varchar(255) / done bit(1)）。
+    @NotBlank(message = "标题不能为空")
+    @Size(max = 50, message = "标题不能超过五十字")
     private String title;   // 任务标题
 
     // 这里刻意用包装类型 Boolean，而不是基本类型 boolean。

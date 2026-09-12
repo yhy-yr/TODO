@@ -31,3 +31,50 @@ Content-Type: application/json
 
 ### 删除
 DELETE http://localhost:8080/todo/4
+
+
+
+
+
+### 正常新增（应成功）
+POST http://localhost:8080/todo
+Content-Type: application/json
+
+{
+  "title": "买菜",
+  "done": false
+}
+
+### 标题为空（应 400）
+POST http://localhost:8080/todo
+Content-Type: application/json
+
+{
+  "title": "",
+  "done": false
+}
+
+### 标题超长（应 400）
+POST http://localhost:8080/todo
+Content-Type: application/json
+
+{
+  "title": "这是一个超过五十个字的标题这是一个超过五十个字的标题这是一个超过五十个字的标题这是一个超过五十个字的标题这是一个超过五十个字的标题",
+  "done": false
+}
+
+### 只传 done 不传 title（应 400，因为 @NotBlank 拦住了 null）
+POST http://localhost:8080/todo
+Content-Type: application/json
+
+{
+  "done": true
+}
+
+### PUT 只传 done，不传 title（应成功，title 保持原值）
+PUT http://localhost:8080/todo/2
+Content-Type: application/json
+
+{
+  "done": true
+}

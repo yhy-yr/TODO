@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.result;
 
 public class Result <T>{
     private Integer code;

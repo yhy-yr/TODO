@@ -18,7 +18,7 @@ spring:
     #   allowPublicKeyRetrieval=true  允许客户端向服务端索取公钥。
     #                                 MySQL 8 默认认证插件 caching_sha2_password 在非 SSL 下需要它，
     #                                 缺了会报 "Public Key Retrieval is not allowed"
-    url: jdbc:mysql://localhost:3306/todo?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/todo_db?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: "200626"
     # ⚠️ 安全提醒：这个密码是明文的，而 .gitignore 目前没有排除 application.yml。

@@ -1,5 +1,10 @@
 package com.example.demo.controller;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import com.example.demo.dto.TodoCreateRequest;
 import com.example.demo.dto.TodoResponse;
 import com.example.demo.dto.TodoUpdateRequest;
@@ -7,14 +12,7 @@ import com.example.demo.entity.Todo;
 import com.example.demo.result.Result;
 import com.example.demo.service.TodoService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,11 +27,18 @@ public class TodoController {
     }
 
     @GetMapping // 处理 GET /todo 请求
-    public Result<List<TodoResponse>> list() {
-        List<TodoResponse> data = todoService.list()
-                .stream()
-                .map(TodoResponse::from)
-                .toList();
+    public Result<Page<TodoResponse>> list( @RequestParam(required = false) // 读取 ?done=...；required=false 表示可以不传
+                                                Boolean done  ,@RequestParam(required = false) // 读取标题关键字，可以不传
+            String keyword, @PageableDefault(
+            size = 5,
+            sort = "id",
+            direction = Sort.Direction.DESC
+    ) // 设置默认每页 5 条，并按照 ID 倒序排列
+    Pageable pageable ) {
+        Page<TodoResponse> data = todoService.list(done,keyword,pageable)
+               
+                .map(TodoResponse::from);
+
         return Result.success(data);
     }
 

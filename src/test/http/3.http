@@ -1,0 +1,8 @@
+### 按标题搜索
+GET http://localhost:8080/todo?keyword=买
+
+### 同时按照状态和标题搜索
+GET http://localhost:8080/todo?done=false&keyword=买
+
+### 空关键字，应该查询全部
+GET http://localhost:8080/todo?keyword=

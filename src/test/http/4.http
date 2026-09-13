@@ -1,0 +1,17 @@
+### 默认分页
+GET http://localhost:8080/todo
+
+### 查询第一页，每页 3 条
+GET http://localhost:8080/todo?page=0&size=3
+
+### 查询第二页
+GET http://localhost:8080/todo?page=1&size=3
+
+### 分页加状态筛选
+GET http://localhost:8080/todo?done=false&page=0&size=3
+
+### 分页加关键字筛选
+GET http://localhost:8080/todo?keyword=买&page=0&size=3
+
+### 按标题升序
+GET http://localhost:8080/todo?page=0&size=5&sort=title,asc

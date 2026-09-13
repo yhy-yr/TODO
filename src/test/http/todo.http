@@ -78,3 +78,17 @@ Content-Type: application/json
 {
   "done": true
 }
+
+
+
+
+
+
+### 删除未完成的（应成功）
+DELETE http://localhost:8080/todo/5
+
+### 删除已完成的（应 400）
+DELETE http://localhost:8080/todo/2
+
+### 删除不存在的（应 404）
+DELETE http://localhost:8080/todo/99999

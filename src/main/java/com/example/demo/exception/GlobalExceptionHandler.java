@@ -7,18 +7,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
-
+@RestControllerAdvice // 统一处理所有控制器抛出的异常，并返回 JSON
 public class GlobalExceptionHandler {
-    @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Result<Void> handleNotFound( NotFoundException e) {
-        return Result.error(404,e.getMessage());
+
+    @ExceptionHandler(NotFoundException.class) // 捕获资源不存在异常
+    @ResponseStatus(HttpStatus.NOT_FOUND) // 设置 HTTP 状态码为 404
+    public Result<Void> handleNotFound(NotFoundException e) {
+        return Result.error(404, e.getMessage());
     }
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+
+    @ExceptionHandler(MethodArgumentNotValidException.class) // 捕获 @Valid 校验失败异常
+    @ResponseStatus(HttpStatus.BAD_REQUEST) // 设置 HTTP 状态码为 400
     public Result<Void> handleValidation(MethodArgumentNotValidException e) {
-        // 取第一条校验失败的提示。实际项目可以拼接所有错误，但初学阶段一条就够。
         String msg = e.getBindingResult().getFieldErrors().stream()
                 .findFirst()
                 .map(error -> error.getDefaultMessage())
@@ -26,9 +26,9 @@ public class GlobalExceptionHandler {
         return Result.error(400, msg);
     }
 
-
-
-
-
-
+    @ExceptionHandler(BusinessException.class) // 捕获违反业务规则的异常
+    @ResponseStatus(HttpStatus.BAD_REQUEST) // 设置 HTTP 状态码为 400
+    public Result<Void> handleBusiness(BusinessException e) {
+        return Result.error(400, e.getMessage());
+    }
 }

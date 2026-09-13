@@ -1,10 +1,20 @@
 package com.example.demo.dto;
 
 
+import com.example.demo.entity.Priority;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class TodoUpdateRequest {
+    private Priority priority;
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
 
     @Pattern(regexp = ".*\\S.*", message = "标题不能为空") // 有标题时不能是空字符串或纯空格，允许不传
     @Size(max = 50, message = "标题不能超过五十字") // 有标题时最多为 50 个字符

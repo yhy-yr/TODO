@@ -2,6 +2,7 @@ package com.example.demo.exception;
 
 import com.example.demo.result.Result;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -30,5 +31,15 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST) // 设置 HTTP 状态码为 400
     public Result<Void> handleBusiness(BusinessException e) {
         return Result.error(400, e.getMessage());
+    }
+    @ExceptionHandler(HttpMessageNotReadableException.class) // 捕获 JSON 格式错误或字段类型转换失败
+    @ResponseStatus(HttpStatus.BAD_REQUEST) // 将 HTTP 状态码设置为 400
+    public Result<Void> handleMessageNotReadable(
+            HttpMessageNotReadableException e) {
+
+        return Result.error(
+                400,
+                "请求体格式错误，请检查 JSON 和字段取值"
+        );
     }
 }

@@ -1,8 +1,0 @@
-### 查询全部
-GET http://localhost:8080/todo
-
-### 查询已完成任务
-GET http://localhost:8080/todo?done=true
-
-### 查询未完成任务
-GET http://localhost:8080/todo?done=false

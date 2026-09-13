@@ -1,0 +1,8 @@
+### priority 枚举值错误，应返回统一的 400
+POST http://localhost:8080/todo
+Content-Type: application/json
+
+{
+  "title": "测试错误枚举",
+  "priority": "high"
+}

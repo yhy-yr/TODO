@@ -9,24 +9,19 @@ spring:
   # 因为 pom 里引入了 spring-boot-starter-data-jpa 和 mysql-connector-j，
   # Spring Boot 会自动配置一个 HikariCP 连接池，下面这几项就是在给它填参数。
   datasource:
-    # JDBC 连接串，格式：jdbc:mysql://主机:端口/数据库名?参数1=值1&参数2=值2
-    #   localhost:3306 → 本机 MySQL，3306 是 MySQL 默认端口
-    #   /todo          → 要连的数据库名（schema），这个库必须事先建好，Spring 不会帮你建库
-    # 后面三个参数说明：
-    #   useSSL=false              关闭 SSL 加密连接。本地开发图省事，生产环境应该开启
-    #   serverTimezone=Asia/Shanghai  指定时区。MySQL 驱动 8+ 若不指定，常因时区识别失败而连不上
-    #   allowPublicKeyRetrieval=true  允许客户端向服务端索取公钥。
-    #                                 MySQL 8 默认认证插件 caching_sha2_password 在非 SSL 下需要它，
-    #                                 缺了会报 "Public Key Retrieval is not allowed"
+
     url: jdbc:mysql://localhost:3306/todo_db?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: "200626"
-    # ⚠️ 安全提醒：这个密码是明文的，而 .gitignore 目前没有排除 application.yml。
-    # 一旦提交，密码就会永久留在 git 历史里（事后清除需要改写历史，很麻烦）。
-    # 更安全的做法是改成从环境变量读取：
-    #   password: ${DB_PASSWORD}
-    # 然后在 IDEA 的运行配置或系统环境变量里设置 DB_PASSWORD 的真实值。
 
+  flyway:
+    enabled: true
+
+    # 当前数据库已经存在 todo 表。
+    # 第一次启用 Flyway 时，将现有结构登记为版本 1，
+    # 避免再次执行 V1 建表脚本。
+    baseline-on-migrate: false
+    baseline-version: 1
   jpa:
     # show-sql 和下面的 properties 是【平级】的，都属于 jpa 的直接子项，缩进必须对齐（都是 4 个空格）。
     # YAML 的铁律：一个 key 后面要么跟值，要么跟缩进的子节点，不能两者都有。
@@ -47,7 +42,7 @@ spring:
       # 你现在用的是 update，开发期很方便。但要注意它的坑：
       # 改了字段名（比如 title 改成 name），它只会加一个 name 列，旧的 title 列会一直留着，
       # 时间长了表里会堆积没用的垃圾字段。
-      ddl-auto: update
+      ddl-auto: validate
     # 想看 SQL 里 ? 占位符实际绑定的值，再加这段日志配置：
     # logging:
     #   level:

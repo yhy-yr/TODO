@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.entity.Priority;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -36,7 +37,7 @@ public class TodoController {
     ) // 设置默认每页 5 条，并按照 ID 倒序排列
     Pageable pageable ) {
         Page<TodoResponse> data = todoService.list(done,keyword,pageable)
-               
+
                 .map(TodoResponse::from);
 
         return Result.success(data);
@@ -50,6 +51,11 @@ public class TodoController {
         Todo todo = new Todo();
         todo.setTitle(request.getTitle());
         todo.setDone(request.getDone() == null ? false : request.getDone());
+        todo.setPriority(
+                request.getPriority() == null
+                        ? Priority.MEDIUM
+                        : request.getPriority()
+        );
 
         Todo saved = todoService.create(todo);
         return Result.success(TodoResponse.from(saved));
@@ -63,7 +69,7 @@ public class TodoController {
         return Result.success(TodoResponse.from(todo));
     }
 
-    @PutMapping("/{id}") // 处理 PUT /todo/{id} 请求
+    @PatchMapping("/{id}") // 处理 PATCH /todo/{id} 请求
     public Result<TodoResponse> update(
             @PathVariable // 读取 URL 路径中的 id
             Long id,
@@ -73,6 +79,7 @@ public class TodoController {
         Todo todo = new Todo();
         todo.setTitle(request.getTitle());
         todo.setDone(request.getDone());
+        todo.setPriority(request.getPriority());
 
         Todo updated = todoService.update(id, todo);
         return Result.success(TodoResponse.from(updated));

@@ -65,6 +65,9 @@ public class TodoService {
 
     @Transactional // 开启事务，保证更新操作完整执行或回滚
     public Todo update(Long id, Todo todo) {
+        if (todo.getTitle() == null && todo.getDone() == null&& todo.getPriority() == null) {
+            throw new BusinessException("至少提供一个需要修改的字段");
+        }
         Todo existing = todoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("id 不存在：" + id));
 
@@ -73,6 +76,9 @@ public class TodoService {
         }
         if (todo.getDone() != null) {
             existing.setDone(todo.getDone());
+        }
+        if (todo.getPriority() != null) {
+            existing.setPriority(todo.getPriority());
         }
         return todoRepository.save(existing);
     }

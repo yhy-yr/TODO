@@ -1,9 +1,11 @@
 package com.example.demo.dto;
 
+import com.example.demo.entity.Priority;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class TodoCreateRequest {
+    private Priority priority;
 
     @NotBlank(message = "标题不能为空") // 标题不能为 null、空字符串或纯空格
     @Size(max = 50, message = "标题不能超过五十字") // 限制标题最多为 50 个字符
@@ -25,5 +27,12 @@ public class TodoCreateRequest {
 
     public void setDone(Boolean done) {
         this.done = done;
+    }
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 }

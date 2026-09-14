@@ -5,7 +5,7 @@
 CREATE TABLE todo
 (
     id         BIGINT      NOT NULL AUTO_INCREMENT,
-    title      VARCHAR(255) NOT NULL,
+    title      VARCHAR(50) NOT NULL,
     done       BIT(1)      NOT NULL DEFAULT b'0',
     created_at DATETIME(6) NULL,
     updated_at DATETIME(6) NULL,

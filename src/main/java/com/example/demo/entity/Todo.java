@@ -18,8 +18,7 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 使用数据库自增方式生成主键
     private long id;
 
-    @NotBlank(message = "标题不能为空") // 标题不能为 null、空字符串或纯空格
-    @Size(max = 50, message = "标题不能超过五十字") // 限制标题最多为 50 个字符
+
     private String title;
 
     private Boolean done;
